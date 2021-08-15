@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.ResultPoint;
+import com.google.zxing.DecodeHintType;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.BarcodeView;
@@ -428,6 +429,9 @@ public class QRScanner extends CordovaPlugin implements BarcodeCallback {
 
                 //Configure the decoder
                 ArrayList<BarcodeFormat> formatList = new ArrayList<BarcodeFormat>();
+                Map<DecodeHintType, Object> decodeHints = new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
+                decodeHints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+
                 formatList.add(BarcodeFormat.QR_CODE);
                 formatList.add(BarcodeFormat.AZTEC);
                 formatList.add(BarcodeFormat.CODE_39);
@@ -438,7 +442,7 @@ public class QRScanner extends CordovaPlugin implements BarcodeCallback {
                 formatList.add(BarcodeFormat.UPC_E);
                 // EAN 128
                 // UPC_A
-                mBarcodeView.setDecoderFactory(new DefaultDecoderFactory(formatList, null, null));
+                mBarcodeView.setDecoderFactory(new DefaultDecoderFactory(formatList, decodeHints, null));
 
                 //Configure the camera (front/back)
                 CameraSettings settings = new CameraSettings();
